@@ -159,9 +159,11 @@ func (tm *TokenManager) cleanupInvalidTokens() (int64, error) {
 
 	for i, tokenString := range tokensToDelete {
 		tokensId[i] = tm.ExpireTokenIdMap[tokenString]
+		delete(tm.ExpireTokenIdMap, tokenString)
 	}
 
 	dbRemoveNum, err := removeInvalidateTokenToDB(tokensId)
+
 	if err != nil {
 		return 0, err
 	}
